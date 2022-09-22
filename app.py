@@ -83,5 +83,6 @@ def main():
 
 
 # start application with main function
+@app.route('/')
 if __name__ == '__main__':
     main()
