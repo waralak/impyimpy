@@ -4,7 +4,7 @@ from telegram.ext import CommandHandler, MessageHandler, Filters
 import os
 import json
 from flask import Flask, request
-import requests
+
 
 # telegram token
 TOKEN = os.environ.get("TELEGRAM_ID")
