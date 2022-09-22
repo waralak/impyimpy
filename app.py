@@ -93,6 +93,9 @@ def set_webhook():
 
 
 # start application with main function
+@app.route("/", methods=["GET"])
+def index():
+   return .
 
 if __name__ == '__main__':
     app.run(threaded=True)
