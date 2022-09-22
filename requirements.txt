@@ -10,4 +10,3 @@ tzdata==2021.5
 tzlocal==4.1
 telegram==0.0.1
 Flask==2.2.2
-requests==2.13.0
