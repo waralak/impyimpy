@@ -3,10 +3,12 @@ from telegram.ext import Updater
 from telegram.ext import CommandHandler, MessageHandler, Filters
 import os
 import json
+from flask import Flask, request
+import requests
 
 # telegram token
 TOKEN = os.environ.get("TELEGRAM_ID")
-from flask import Flask, request
+
 bot = telegram.Bot(token=TOKEN)
 app = Flask(__name__)
 
