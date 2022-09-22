@@ -7,11 +7,14 @@ from flask import Flask, request
 
 
 # telegram token
+global bot
+global TOKEN
 TOKEN = os.environ.get("TELEGRAM_ID")
 
 bot = telegram.Bot(token=TOKEN)
 app = Flask(__name__)
 
+@app.route('/{}'.format(TOKEN), methods=['POST'])
 def respond():
    # retrieve the message in JSON and then transform it to Telegram object
    update = telegram.Update.de_json(request.get_json(force=True), bot)
@@ -57,32 +60,39 @@ def respond():
 #     context.bot.send_message(update.message.chat.id, "Oops! Error encountered!")
 
 
+@app.route('/set_webhook', methods=['GET', 'POST'])
+def set_webhook():
+   s = bot.setWebhook('{URL}{HOOK}'.format(URL="https://impyimpy.herokuapp.com/", HOOK=TOKEN))
+   if s:
+       return "webhook setup ok"
+   else:
+       return "webhook setup failed"
 # main logic
-def main():
-#     # to get the updates from bot
-#     updater = Updater(token=TOKEN, use_context=True)
+# def main():
+# #     # to get the updates from bot
+# #     updater = Updater(token=TOKEN, use_context=True)
 
-#     # to dispatch the updates to respective handlers
-#     dp = updater.dispatcher
+# #     # to dispatch the updates to respective handlers
+# #     dp = updater.dispatcher
 
-#     # handlers
-#     dp.add_handler(CommandHandler("start", start))
-#     dp.add_handler(CommandHandler("details", details))
+# #     # handlers
+# #     dp.add_handler(CommandHandler("start", start))
+# #     dp.add_handler(CommandHandler("details", details))
 
-#     dp.add_handler(MessageHandler(Filters.text, mimic))
+# #     dp.add_handler(MessageHandler(Filters.text, mimic))
 
-#     dp.add_error_handler(error)
-    app.run(threaded=True)
+# #     dp.add_error_handler(error)
+#     app.run(threaded=True)
 
 
-    # to start webhook
-    updater.start_webhook(listen="0.0.0.0", port=os.environ.get("PORT", 443),
-                          url_path=TOKEN,
-                          webhook_url="https://impyimpy.herokuapp.com/" + TOKEN)
-    updater.idle()
+#     # to start webhook
+#     updater.start_webhook(listen="0.0.0.0", port=os.environ.get("PORT", 443),
+#                           url_path=TOKEN,
+#                           webhook_url="https://impyimpy.herokuapp.com/" + TOKEN)
+#     updater.idle()
 
 
 # start application with main function
 @app.route('/')
 if __name__ == '__main__':
-    main()
+    app.run(threaded=True)
